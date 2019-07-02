@@ -118,7 +118,7 @@ const ImageBoard = ({ image, rows, cols, onDone, shuffleKey=0 }) => {
             return
         }
         const indices = chops.map(c => c.idx)
-        const sorted = [...indices].sort()
+        const sorted = [...indices].sort((a, b) => a-b)
         const done = JSON.stringify(sorted) === JSON.stringify(indices)
         if (done) {
             onDone()
