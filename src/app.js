@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Header from './header'
 import Footer from './footer'
 import Game from './game/game'
+import { LanguageProvider } from './contexts/language.context'
 
 const Box = styled.div`
     display: flex;
@@ -12,11 +13,13 @@ const Box = styled.div`
 
 const App = () => {
     return (
-        <Box>
-            <Header />
-            <Game />
-            <Footer />
-        </Box>
+        <LanguageProvider>
+            <Box>
+                <Header />
+                <Game />
+                <Footer />
+            </Box>
+        </LanguageProvider>
     )
 }
 

@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useDropzone } from 'react-dropzone'
 import OriginalImage from './original-image'
+import { useLanguage } from '../contexts/language.context'
 import Button from './button'
+import Text from '../data/text.json'
 
 const Box = styled.div``
 const DropBox = styled.div`
@@ -19,6 +21,7 @@ const DropBox = styled.div`
 `
 
 const ImageUpload = ({ image, setImage }) => {
+    const [lang] = useLanguage()
     const [preview, setPreview] = useState(null)
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*',
@@ -50,12 +53,12 @@ const ImageUpload = ({ image, setImage }) => {
                 {!preview && <DropBox {...getRootProps()}>
                     <input {...getInputProps()} />
                     <p>{isDragActive
-                            ? 'Drop here!'
-                            : 'Drop an image here'}</p>
+                            ? Text.dropActive[lang]
+                            : Text.dropDefault[lang]}</p>
                 </DropBox>}
                 {preview && <OriginalImage src={preview.preview} />}
             </Box>
-            {preview && <Button onClick={onClearPreview} text='Clear Image' />}
+            {preview && <Button onClick={onClearPreview} text={Text.clearImage[lang]} />}
         </>
     )
 }

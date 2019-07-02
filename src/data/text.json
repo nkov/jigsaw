@@ -1,0 +1,54 @@
+{
+    "dropActive": {
+        "en": "Drop here!",
+        "ru": "Брости здесь!"
+    },
+    "dropDefault": {
+        "en": "Drop an image here",
+        "ru": "Брости картинку сюда"
+    },
+    "clearImage": {
+        "en": "Clear Image",
+        "ru": "Новое фото"
+    },
+    "code": {
+        "en": "code",
+        "ru": "код"
+    },
+    "rows": {
+        "en": "Rows",
+        "ru": "Ряды"
+    },
+    "cols": {
+        "en": "Cols",
+        "ru": "Колонки"
+    },
+    "start": {
+        "en": "Start",
+        "ru": "Пуск"
+    },
+    "reset": {
+        "en": "Reset",
+        "ru": "Заново"
+    },
+    "shuffle": {
+        "en": "Shuffle",
+        "ru": "Перемешать"
+    },
+    "solve": {
+        "en": "Solve",
+        "ru": "Решыть"
+    },
+    "hide": {
+        "en": "Hide",
+        "ru": "Спрятать"
+    },
+    "show": {
+        "en": "Show",
+        "ru": "Показать"
+    },
+    "original": {
+        "en": "Original",
+        "ru": "Оригинал"
+    }
+}

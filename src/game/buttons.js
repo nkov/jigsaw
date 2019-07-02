@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import Button from './button'
+import { useLanguage } from '../contexts/language.context'
+import Text from '../data/text.json'
 
 const Box = styled.div`
     text-align: center;
@@ -12,12 +14,13 @@ const Box = styled.div`
 `
 
 const Buttons = ({ showOriginal, setShowOriginal, onSolve, onShuffle, onReset }) => {
+    const [lang] = useLanguage()
     return (
         <Box>
-            <Button text='Reset' onClick={onReset} />
-            <Button text='Shuffle' onClick={onShuffle} />
-            <Button text='Solve' onClick={onSolve} />
-            <Button text={`${showOriginal ? 'Hide' : 'Show'} Original`} onClick={() => setShowOriginal(!showOriginal)} />
+            <Button text={Text.reset[lang]} onClick={onReset} />
+            <Button text={Text.shuffle[lang]} onClick={onShuffle} />
+            <Button text={Text.solve[lang]} onClick={onSolve} />
+            <Button text={`${showOriginal ? Text.hide[lang] : Text.show[lang]} ${Text.original[lang]}`} onClick={() => setShowOriginal(!showOriginal)} />
         </Box>
     )
 }

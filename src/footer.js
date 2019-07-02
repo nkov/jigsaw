@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useLanguage } from './contexts/language.context'
+import Text from './data/text.json'
 
 const Box = styled.div`
     text-align: center;
@@ -7,9 +9,10 @@ const Box = styled.div`
 `
 
 const Footer = () => {
+    const [lang] = useLanguage()
     return (
         <Box>
-            [<a href="https://github.com" target="_blank">code</a>]
+            [<a href="https://github.com" target="_blank">{Text.code[lang]}</a>]
         </Box>
     )
 }
