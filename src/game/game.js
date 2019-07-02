@@ -18,7 +18,7 @@ const GameBox = styled.div`
     align-items: center;
 `
 const ImageBox = styled.div`
-    width: 600px;
+    // width: 600px;
     max-width: 50%;
     text-align: center;
 `
@@ -30,13 +30,19 @@ const Game = () => {
     const [image, setImage] = useState(null)
     const [showOriginal, setShowOriginal] = useState(false)
     const [shuffleKey, setShuffleKey] = useState(0)
+    const [startTime, setStartTime] = useState(null)
+    const [done, setDone] = useState(false)
 
+    const onStart = () => {
+        setStarted(true)
+        setStartTime(new Date())
+    }
     const onSolve = () => {
 
     }
 
     const onDone = () => {
-        alert('done!')
+        setDone(true)
         setShowOriginal(true)
     }
 
@@ -45,6 +51,8 @@ const Game = () => {
     }
 
     const onReset = () => {
+        setDone(false)
+        setStartTime(null)
         setStarted(false)
     }
 
@@ -55,14 +63,14 @@ const Game = () => {
                     {!started && <ImageUpload image={image} setImage={setImage} />}
                     {started && <ImageBoard shuffleKey={shuffleKey} image={image} rows={rows} cols={cols} onDone={onDone} />}
                 </ImageBox>
-                <Timer />
+                {started && <Timer startTime={startTime} stop={done} />}
                 {!started && image && (
                     <ImageControls
                         rows={rows}
                         cols={cols}
                         setRows={setRows}
                         setCols={setCols}
-                        onStart={() => setStarted(true)} />
+                        onStart={onStart} />
                 )}
                 {started && image && <OriginalImage blurred={!showOriginal} src={image.preview} />}
             </GameBox>
