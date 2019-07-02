@@ -35,6 +35,7 @@ const Game = () => {
 
     const onStart = () => {
         setStarted(true)
+        setShowOriginal(false)
         setStartTime(new Date())
     }
     const onSolve = () => {
