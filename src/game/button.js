@@ -9,6 +9,7 @@ const Box = styled.div`
     border-radius: 3px;
     cursor: pointer;
     display: inline-block;
+    user-select: none;
 
     ${props => {
         switch(props.type) {

@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { useDropzone } from 'react-dropzone'
 import OriginalImage from './original-image'
+import Button from './button'
 
 const Box = styled.div``
 const DropBox = styled.div`
@@ -17,7 +18,7 @@ const DropBox = styled.div`
     margin: 0 auto;
 `
 
-const ImageUpload = ({ setImage }) => {
+const ImageUpload = ({ image, setImage }) => {
     const [preview, setPreview] = useState(null)
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: 'image/*',
@@ -32,16 +33,30 @@ const ImageUpload = ({ setImage }) => {
         }
     })
 
+    const onClearPreview = () => {
+        setPreview(null)
+        setImage && setImage(null)
+    }
+
+    useEffect(() => {
+        if (image) {
+            setPreview(image)
+        }
+    }, [image])
+
     return (
-        <Box>
-            {!preview && <DropBox {...getRootProps()}>
-                <input {...getInputProps()} />
-                <p>{isDragActive
-                        ? 'Drop here!'
-                        : 'Drop an image here'}</p>
-            </DropBox>}
-            {preview && <OriginalImage src={preview.preview} />}
-        </Box>
+        <>
+            <Box>
+                {!preview && <DropBox {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <p>{isDragActive
+                            ? 'Drop here!'
+                            : 'Drop an image here'}</p>
+                </DropBox>}
+                {preview && <OriginalImage src={preview.preview} />}
+            </Box>
+            {preview && <Button onClick={onClearPreview} text='Clear Image' />}
+        </>
     )
 }
 

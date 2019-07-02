@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Box = styled.div`
     text-align: center;
-    height: 20px;
+    padding-bottom: 10px;
 `
 
 const Footer = () => {

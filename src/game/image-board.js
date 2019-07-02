@@ -30,17 +30,16 @@ const Board = styled.div`
         &.original {
             visibility: hidden;
             position: absolute;
-            // max-width: 600px;
-            // max-height: 600px;
         }
     }
 `
 
-const ImageBoard = ({ image, rows, cols }) => {
+const ImageBoard = ({ image, rows, cols, onDone, shuffleKey=0 }) => {
     const imgRef = useRef(null)
     const [chops, setChops] = useState([])
     const [width, setWidth] = useState(400)
     const [height, setHeight] = useState(400)
+    const [dragItem, setDragItem] = useState(null)
 
     const chopImage = () => {
         if (!image || !imgRef.current) {
@@ -60,7 +59,7 @@ const ImageBoard = ({ image, rows, cols }) => {
         setWidth(width)
         setHeight(height)
 
-        const chops = []
+        let chops = []
         
         for (let x=0; x<rows; ++x) {
             for (let y=0; y<cols; ++y) {
@@ -73,11 +72,9 @@ const ImageBoard = ({ image, rows, cols }) => {
                 chops.push(url)
             }
         }
+        chops = chops.map((chop, idx) => ({ url: chop, idx }))
         setChops(shuffle(chops))
-        // setChops(chops)
     }
-
-    useEffect(chopImage, [image])
 
     let maxWidth = width
     let maxHeight = height
@@ -92,15 +89,72 @@ const ImageBoard = ({ image, rows, cols }) => {
         maxWidth = Math.ceil(maxWidth / ratio)
     }
 
+    const onDragStart = (e, chop, idx) => {
+        setDragItem({ chop, idx })
+    }
+
+    const onDragOver = e => e.preventDefault()
+
+    const onDrop = (e, idx) => {
+        swapDrag(idx)
+    }
+
+    const swapDrag = (toIdx) => {
+        if (!dragItem) {
+            return
+        }
+        setChops(chops => {
+            const newChops = [...chops]
+            const temp = newChops[toIdx]
+            newChops[toIdx] = dragItem.chop
+            newChops[dragItem.idx] = temp
+            return newChops
+        })
+        setDragItem(null)
+    }
+
+    const checkDone = () => {
+        if (!chops.length) {
+            return
+        }
+        const indices = chops.map(c => c.idx)
+        const sorted = [...indices].sort()
+        const done = JSON.stringify(sorted) === JSON.stringify(indices)
+        if (done) {
+            onDone()
+        }
+    }
+    
+    useEffect(chopImage, [image])
+    useEffect(checkDone, [chops])
+    useEffect(() => {
+        if (shuffleKey && chops.length) {
+            setChops(chops => shuffle([...chops]))
+        }
+    }, [shuffleKey])
+
     return (
         <Board maxWidth={maxWidth} maxHeight={maxHeight}>
             <img ref={imgRef} src={image.preview} className='original' width={width} height={height} />
             <>
-                {chops.map((chop, idx) => (
-                    maxWidth > maxHeight
-                        ? <img key={`chop-${idx}`} src={chop} width={Math.floor(maxWidth / cols)} />
-                        : <img key={`chop-${idx}`} src={chop} height={Math.floor(maxHeight / rows)} />
-                    ))}
+                {chops.map((chop, idx) => {
+                    const imgProps = {}
+                    if (maxWidth > maxHeight) {
+                        imgProps.width = Math.floor(maxWidth / cols)
+                    } else {
+                        imgProps.height = Math.floor(maxHeight / rows)
+                    }
+                    return (
+                        <img
+                            src={chop.url}
+                            draggable
+                            onDragStart={e => onDragStart(e, chop, idx)}
+                            onDragOver={onDragOver}
+                            onDrop={e => onDrop(e, idx)}
+                            key={`chop-${idx}`}
+                            {...imgProps} />
+                    )
+                })}
             </>
         </Board>
     )
