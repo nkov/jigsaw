@@ -12,7 +12,7 @@ const Footer = () => {
     const [lang] = useLanguage()
     return (
         <Box>
-            [<a href="https://github.com" target="_blank">{Text.code[lang]}</a>]
+            [<a href="https://github.com/nkov/jigsaw" target="_blank">{Text.code[lang]}</a>]
         </Box>
     )
 }
