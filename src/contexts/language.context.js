@@ -7,10 +7,17 @@ const useLanguage = () => {
 }
 
 const LanguageProvider = ({ children }) => {
-    const [lang, setLang] = useState('en')
+    const [lang, setLang] = useState(window.localStorage && window.localStorage.getItem('lang') || 'en')
+
+    const setLanguage = (lang) => {
+        setLang(lang)
+        if (window.localStorage) {
+            window.localStorage.setItem('lang', lang)
+        }
+    }
 
     return (
-        <LanguageContext.Provider value={[lang, setLang]}>
+        <LanguageContext.Provider value={[lang, setLanguage]}>
             {children}
         </LanguageContext.Provider>
     )
